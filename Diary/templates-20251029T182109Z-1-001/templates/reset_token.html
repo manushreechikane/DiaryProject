@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reset Password - Personal Diary</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<style>
+/* ... (Include all the CSS from forgot_password.html here for consistency) ... */
+.auth-container {
+max-width: 400px;
+margin: 100px auto;
+padding: 40px;
+background: rgba(255, 255, 255, 0.95);
+backdrop-filter: blur(10px);
+border-radius: 15px;
+box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+text-align: center;
+}
+.auth-container h1 {
+color: #4a5568;
+margin-bottom: 30px;
+font-size: 2rem;
+}
+.form-group {
+margin-bottom: 20px;
+text-align: left;
+}
+.form-group label {
+display: block;
+margin-bottom: 8px;
+font-weight: 500;
+color: #4a5568;
+}
+.form-control {
+width: 100%;
+padding: 12px;
+border: 1px solid #cbd5e0;
+border-radius: 8px;
+font-size: 1rem;
+outline: none;
+transition: border-color 0.3s ease;
+}
+.form-control:focus {
+border-color: #667eea;
+box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}
+.btn-submit {
+width: 100%;
+padding: 12px 24px;
+border: none;
+border-radius: 8px;
+font-size: 1.1rem;
+font-weight: 600;
+cursor: pointer;
+background: linear-gradient(135deg, #667eea, #764ba2);
+color: white;
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.btn-submit:hover {
+transform: translateY(-2px);
+box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+.link-text {
+margin-top: 20px;
+font-size: 0.9rem;
+color: #718096;
+}
+.link-text a {
+color: #667eea;
+text-decoration: none;
+font-weight: 600;
+transition: color 0.3s ease;
+}
+.link-text a:hover {
+color: #5a67d8;
+}
+
+/* Flash Messages */
+.flash {
+padding: 10px;
+margin-bottom: 15px;
+border-radius: 8px;
+text-align: center;
+font-weight: 500;
+}
+.flash.danger {
+background-color: #fdd;
+color: #e53e3e;
+border: 1px solid #e53e3e;
+}
+.flash.success {
+background-color: #dff;
+color: #38a169;
+border: 1px solid #38a169;
+}
+.flash.info {
+    background-color: #e6f0ff;
+    color: #4a5568;
+    border: 1px solid #667eea;
+}
+</style>
+
+</head>
+<body>
+<div class="auth-container">
+<h1>Set New Password</h1>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<form method="POST" action="{{ url_for('reset_token', token=token) }}">
+    <div class="form-group">
+        <label for="password">New Master Password</label>
+        <input type="password" id="password" name="password" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="confirm_password">Confirm New Master Password</label>
+        <input type="password" id="confirm_password" name="confirm_password" class="form-control" required>
+        <small style="color:#e53e3e; display:block; margin-top:5px;">
+            **Remember:** This new password will be required to decrypt your existing diary entries!
+        </small>
+    </div>
+    
+    <button type="submit" class="btn-submit">Reset Password</button>
+</form>
+
+</div>
+</body>
+</html>
